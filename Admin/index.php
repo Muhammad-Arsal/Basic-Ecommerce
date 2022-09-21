@@ -145,7 +145,7 @@ $row = mysqli_fetch_assoc($res);
               <!-- small box -->
               <div class="small-box bg-secondary">
                 <div class="inner">
-                  <h3>Add</h3>
+                  <h3>View</h3>
 
                   <p>Categories</p>
                 </div>
