@@ -83,8 +83,8 @@ $row = mysqli_fetch_assoc($res);
           </div>
         </div><!-- /.container-fluid -->
       </section>
-            </section>
-           <section class="content">
+
+      <section class="content">
         <div class="container-fluid">
           <h1 class="text-success"><u>Products Section</u></h1>
           <!-- Small boxes (Stat box) -->
@@ -121,8 +121,8 @@ $row = mysqli_fetch_assoc($res);
           </div>
         </div>
       </section>
-            </section>
-           <section class="content">
+          
+      <section class="content">
         <div class="container-fluid">
           <h1 class="text-success"><u>Categories Section</u></h1>
           <!-- Small boxes (Stat box) -->
@@ -159,6 +159,7 @@ $row = mysqli_fetch_assoc($res);
           </div>
         </div>
       </section>
+
       <section class="content">
         <div class="container-fluid">
           <h1 class="text-success"><u>Inventory Details</u></h1>
@@ -195,6 +196,7 @@ $row = mysqli_fetch_assoc($res);
             <!-- ./col -->
           </div>
         </div>
+      </section>
       <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->

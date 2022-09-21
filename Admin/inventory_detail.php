@@ -34,6 +34,7 @@ if (!isset($_SESSION['uid']) && !isset($_COOKIE['remember_me'])) {
                                 <th scope="col">Cost price</th>
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Worth</th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -54,12 +55,14 @@ if (!isset($_SESSION['uid']) && !isset($_COOKIE['remember_me'])) {
                                     <td><?php echo $showing_all['cost_price']; ?></td>
                                     <td><?php echo $showing_all['stock']; ?></td>
                                     <td><?php echo $showing_all['stock'] * $showing_all['cost_price'] . " $"; ?></td>
+                                    <td><a href="" class="btn btn-success">Details</a>
+                                    </td>
                                 </tr>
                             <?php
                             }
                             ?>
                             <tr class="bg-dark">
-                                <td colspan="4">Total</td>
+                                <td colspan="5">Total</td>
                                 <td><?php echo $total; ?> $</td>
                             </tr>
                         </tbody>

@@ -145,6 +145,7 @@ session_start();
                 foreach ($count_number as $details) {
                   $key = $details['product_id'];
                   $cart_quantity = select_where("products", "id", $key, $connection, 1);
+                  $seller = select_where("seller_products","product_id",$key,$connection,1);
               ?>
                   <tr>
                     <td>
@@ -158,7 +159,7 @@ session_start();
                       </div>
                     </td>
                     <td>
-                      <h5><?php echo $cart_quantity['sale_price']; ?>$</h5>
+                      <h5><?php echo $seller['cost_price']; ?>$</h5>
                     </td>
                     <td>
                       <button data-value="<?php echo $cart_quantity['id']; ?>" class="btn_3 move">Move to cart</button>
