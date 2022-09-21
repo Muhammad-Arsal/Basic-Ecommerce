@@ -4,9 +4,10 @@ session_start();
 if (!isset($_SESSION['user_login']) && !isset($_COOKIE['remember_me'])) {
   header("location: checkout.php");
 };
+if(isset($_SESSION['user_login'])){
 $user_id = $_SESSION['user_login'];
-$cookie_user_id = $_COOKIE['remember_me'];
 
+}
 $que = "SELECT * FROM order_details WHERE user_id = $user_id ORDER BY user_id DESC";
 $result = mysqli_query($connection, $que);
 if (mysqli_num_rows($result) > 0) {
