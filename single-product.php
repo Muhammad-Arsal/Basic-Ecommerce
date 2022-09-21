@@ -139,14 +139,18 @@ if (isset($_POST['cart_submit'])) {
         <div class="col-lg-5 col-xl-4">
           <div class="s_product_text">
             <h3><?php echo $post_det['product_name']; ?></h3>
-            <h2><?php echo $seller_prod_val['cost_price'] ?>$</h2>
+            <h2><?php if(!empty($seller_prod_val['cost_price'])){echo $seller_prod_val['cost_price'] . "$";}else{
+              echo "0";
+            }  ?></h2>
             <ul class="list">
               <li>
                 <a class="active" href="category.php?id=<?php echo $cat_show['id']; ?>">
                   <span>Category</span> : <?php echo $cat_show['name']; ?></a>
               </li>
               <li>
-                <a href="#"> <span>Availibility</span> :<?php echo $seller_prod_val['stock']; ?> pieces</a>
+                <a href="#"> <span>Availibility</span> :<?php if(!empty($seller_prod_val['stock'])){echo $seller_prod_val['stock'] . "pieces";}else{
+                  echo "0 pieces" ;
+                }  ?></a>
               </li>
             </ul>
             <p>

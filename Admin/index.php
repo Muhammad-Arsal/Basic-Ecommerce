@@ -83,6 +83,82 @@ $row = mysqli_fetch_assoc($res);
           </div>
         </div><!-- /.container-fluid -->
       </section>
+            </section>
+           <section class="content">
+        <div class="container-fluid">
+          <h1 class="text-success"><u>Products Section</u></h1>
+          <!-- Small boxes (Stat box) -->
+          <div class="row">
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-info">
+                <div class="inner">
+                  <h3>Add</h3>
+
+                  <p>Products</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-bag"></i>
+                </div>
+                <a href="addproduct.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-warning">
+                <div class="inner">
+                  <h3>View</h3>
+
+                  <p>Products</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-bag"></i>
+                </div>
+                <a href="products.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <!-- ./col -->
+          </div>
+        </div>
+      </section>
+            </section>
+           <section class="content">
+        <div class="container-fluid">
+          <h1 class="text-success"><u>Categories Section</u></h1>
+          <!-- Small boxes (Stat box) -->
+          <div class="row">
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-info">
+                <div class="inner">
+                  <h3>Add</h3>
+
+                  <p>Categories</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-bag"></i>
+                </div>
+                <a href="addproduct.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-secondary">
+                <div class="inner">
+                  <h3>Add</h3>
+
+                  <p>Categories</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-bag"></i>
+                </div>
+                <a href="category.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <!-- ./col -->
+          </div>
+        </div>
+      </section>
       <section class="content">
         <div class="container-fluid">
           <h1 class="text-success"><u>Inventory Details</u></h1>
@@ -104,7 +180,7 @@ $row = mysqli_fetch_assoc($res);
             </div>
             <div class="col-lg-3 col-6">
               <!-- small box -->
-              <div class="small-box bg-info">
+              <div class="small-box bg-success">
                 <div class="inner">
                   <h3>All</h3>
 
@@ -119,7 +195,6 @@ $row = mysqli_fetch_assoc($res);
             <!-- ./col -->
           </div>
         </div>
-      </section>
       <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->

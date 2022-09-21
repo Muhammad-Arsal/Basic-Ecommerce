@@ -144,7 +144,9 @@ if (isset($_SESSION['user_login'])) {
                                                 </a>
                                                 <div class="single_product_text">
                                                     <h4><?php echo $productVal['product_name']; ?></h4>
-                                                    <h3><?php echo $seller_product_val['cost_price']; ?>$</h3>
+                                                    <h3><?php if(!empty($seller_product_val['cost_price'])){echo $seller_product_val['cost_price'] . "$";}else{
+                                                        echo "Out Of Stock";
+                                                    }  ?></h3>
                                                     <?php if (!empty($seller_product_val['stock'])) { ?>
                                                         <a href="#" data-id="<?php echo $productVal['id']; ?>" class="add_cart">+ add to cart<i style="display: none;" data-value="<?php echo $productVal['id']; ?>" class="ti-heart heat"></i></a>
                                                     <?php } ?>

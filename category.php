@@ -205,7 +205,9 @@ if (isset($_GET['id'])) {
                                         <a href="single-product.php?id=<?php echo $showing['id']; ?>"><img src="<?php echo "./productimages/" . $showing['product_image']; ?>" alt=""></a>
                                         <div class="single_product_text">
                                             <h4><?php echo $showing['product_name']; ?></h4>
-                                            <h3><?php echo $new_page_val['cost_price']; ?>$</h3>
+                                            <h3><?php if(!empty($new_page_val['cost_price'])){echo $new_page_val['cost_price'] . "$";}else{
+                                                echo "OUT OF STOCK";
+                                            }  ?></h3>
                                             <?php if (!empty($new_page_val['stock'])) { ?>
                                                 <a href="#" data-id="<?php echo $showing['id']; ?>" class="add_cart">+ add to cart</i></a>
                                             <?php } ?>
