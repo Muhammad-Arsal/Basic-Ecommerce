@@ -83,8 +83,9 @@ if (isset($_SESSION['user_login'])) {
                         <div class="hearer_icon d-flex">
                             <?php if(!isset($_SESSION['user_login']) && !isset($_COOKIE['remember_me'])){ ?>
                             <a id="modal_trigger" href="#modal" class="btn btn_3">Login/Register</a>
-                                                                                    <?php }?>
-                                                                                    
+                                                                                    <?php }else{ ?>
+                                                                                    <a href="user_dash.php" class="btn btn_3"><?php echo $from_db['name']; ?></a>
+                                                                                    <?php } ?>
                             <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a>
                             <a href="./wishlist.php"><i class="ti-heart"></i></a>
                             <div class="dropdown cart">
@@ -600,7 +601,7 @@ if (isset($_SESSION['user_login'])) {
                         const obj = JSON.parse(response);
                         console.log(obj);
                         if (obj.num == 1) {
-                            $(".btn_3").text(obj.name);
+                            $(".btn_3").replaceWith('<a href="user_dash.php" class="btn btn_3">'+obj.name+'</a>')
                             $("#modal").css("display", "none");
                             $("#lean_overlay").css({
                                 "display": "none",
