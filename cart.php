@@ -155,7 +155,7 @@ if (isset($_SESSION['cart_items'])) {
                   $new_supplier_data = select_where("seller_products", "product_id", $key, $connection, 1);
                   $cart_quantity = select_where("products", "id", $key, $connection, 1);
 
-                  $sale_p = $new_supplier_data['cost_price'] * $number_of_items;
+                  $sale_p = $new_supplier_data['sale_price'] * $number_of_items;
               ?>
                   <tr>
                     <td>
@@ -169,7 +169,7 @@ if (isset($_SESSION['cart_items'])) {
                       </div>
                     </td>
                     <td>
-                      <h5><?php echo $new_supplier_data['cost_price']; ?>$</h5>
+                      <h5><?php echo $new_supplier_data['sale_price']; ?>$</h5>
                     </td>
                     <td>
                       <div class="">
@@ -181,7 +181,7 @@ if (isset($_SESSION['cart_items'])) {
                       </div>
                     </td>
                     <td>
-                      <h5 data-id="<?php echo $new_supplier_data['cost_price'] ?>" id="total" class="total"><?php echo $sale_p; ?>$</h5>
+                      <h5 data-id="<?php echo $new_supplier_data['sale_price'] ?>" id="total" class="total"><?php echo $sale_p; ?>$</h5>
                     </td>
                   </tr>
               <?php

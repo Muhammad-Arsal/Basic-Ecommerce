@@ -1,5 +1,8 @@
 <?php
 session_start();
+if (isset($_SESSION['user_login'])) {
+    $current_user = $_SESSION['user_login'];
+}
 require_once "./core/database.php";
 $posts = select_all("products", $connection);
 if (isset($_SESSION['user_login'])) {
@@ -81,11 +84,11 @@ if (isset($_SESSION['user_login'])) {
                             </ul>
                         </div>
                         <div class="hearer_icon d-flex">
-                            <?php if(!isset($_SESSION['user_login']) && !isset($_COOKIE['remember_me'])){ ?>
-                            <a id="modal_trigger" href="#modal" class="btn btn_3">Login/Register</a>
-                                                                                    <?php }else{ ?>
-                                                                                    <a href="user_dash.php" class="btn btn_3"><?php echo $from_db['name']; ?></a>
-                                                                                    <?php } ?>
+                            <?php if (!isset($_SESSION['user_login']) && !isset($_COOKIE['remember_me'])) { ?>
+                                <a id="modal_trigger" href="#modal" class="btn btn_3">Login/Register</a>
+                            <?php } else { ?>
+                                <a href="user_dash.php" class="btn btn_3"><?php echo $from_db['name']; ?></a>
+                            <?php } ?>
                             <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a>
                             <a href="./wishlist.php"><i class="ti-heart"></i></a>
                             <div class="dropdown cart">
@@ -143,12 +146,24 @@ if (isset($_SESSION['user_login'])) {
                                                 </a>
                                                 <div class="single_product_text">
                                                     <h4><?php echo $productVal['product_name']; ?></h4>
-                                                    <h3><?php if(!empty($seller_product_val['cost_price'])){echo $seller_product_val['cost_price'] . "$";}else{
-                                                        echo "Out Of Stock";
-                                                    }  ?></h3>
+                                                    <h3><?php if (!empty($seller_product_val['sale_price'])) {
+                                                            echo $seller_product_val['sale_price'] . "$";
+                                                        } else {
+                                                            echo "Out Of Stock";
+                                                        }  ?></h3>
                                                     <?php if (!empty($seller_product_val['stock'])) { ?>
-                                                        <a href="#" data-id="<?php echo $productVal['id']; ?>" class="add_cart">+ add to cart<i style="display: none;" data-value="<?php echo $productVal['id']; ?>" class="ti-heart heat"></i></a>
-                                                    <?php } ?>
+                                                        <a href="#" data-id="<?php echo $productVal['id']; ?>" class="add_cart">+ add to cart<?php
+                                                                                                                                                if (isset($_SESSION['user_login']) || isset($_COOKIE['remember_me'])) {
+                                                                                                                                                    $que = "SELECT * FROM wishlist WHERE user_id = '$current_user' AND product_id = '$current_id'";
+                                                                                                                                                    $res = mysqli_query($connection, $que);
+                                                                                                                                                    if (mysqli_num_rows($res) > 0) {
+                                                                                                                                                ?>
+                                                            <i style="display: none;" data-value="<?php echo $productVal['id']; ?>" class="ti-heart heat"></i></a>
+                                                    <?php } else { ?>
+                                                        <i style="display: block;" data-value="<?php echo $productVal['id']; ?>" class="ti-heart heat"></i></a><?php }
+                                                                                                                                                        }
+                                                                                                                                                    } ?>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -542,6 +557,7 @@ if (isset($_SESSION['user_login'])) {
             $(".heat").click(function(e) {
                 e.preventDefault();
                 var id = $(this).data('value');
+                console.log(id);
                 var thisPoint = $(this);
                 $.ajax({
                     type: 'post',
@@ -601,13 +617,13 @@ if (isset($_SESSION['user_login'])) {
                         const obj = JSON.parse(response);
                         console.log(obj);
                         if (obj.num == 1) {
-                            $(".btn_3").replaceWith('<a href="user_dash.php" class="btn btn_3">'+obj.name+'</a>')
+                            $(".btn_3").replaceWith('<a href="user_dash.php" class="btn btn_3">' + obj.name + '</a>')
                             $("#modal").css("display", "none");
                             $("#lean_overlay").css({
                                 "display": "none",
                                 "opacity": "1"
                             })
-                            $(".heat").css("display", "block")
+                            // $(".heat").css("display", "block")
                         } else {
                             $(".btn_3").text("Login Error");
                         }

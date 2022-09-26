@@ -59,8 +59,8 @@ if (isset($_POST['proceed'])) {
       "product_id" => $key,
       "order_id" => $last_id,
       "quantity" => $value,
-      "single_price" => $product_details['cost_price'],
-      "total_price" => $product_details['cost_price'] * $value,
+      "single_price" => $product_details['sale_price'],
+      "total_price" => $product_details['sale_price'] * $value,
       "order_number" => $random_number,
       "status"=> 0,
       "user_id"=> $user_id,
@@ -327,13 +327,13 @@ if (isset($_POST['proceed'])) {
                   foreach ($total_items as $key => $value) {
                     $supplier_data = select_where("seller_products", "product_id", $key, $connection, 1);
                     $products_name = select_where("products", "id", $key, $connection, 1);
-                    $sub_total += $supplier_data['cost_price'] * $value;
+                    $sub_total += $supplier_data['sale_price'] * $value;
                   ?>
                                     <li>
                                         <a href="#"><?php echo $products_name['product_name']; ?>
                                             <span class="middle">x<?php echo $value ?></span>
                                             <span
-                                                class="last"><?php echo $supplier_data['cost_price'] * $value; ?>$</span>
+                                                class="last"><?php echo $supplier_data['sale_price'] * $value; ?>$</span>
                                         </a>
                                     </li>
                                     <?php

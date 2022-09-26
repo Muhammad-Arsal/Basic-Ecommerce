@@ -121,7 +121,7 @@ $row = mysqli_fetch_assoc($res);
           </div>
         </div>
       </section>
-          
+
       <section class="content">
         <div class="container-fluid">
           <h1 class="text-success"><u>Categories Section</u></h1>
@@ -191,6 +191,34 @@ $row = mysqli_fetch_assoc($res);
                   <i class="ion ion-bag"></i>
                 </div>
                 <a href="all_bills.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-secondary">
+                <div class="inner">
+                  <h3>Monthly</h3>
+
+                  <p>Expenses</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-bag"></i>
+                </div>
+                <a href="monthly_expenses.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-success">
+                <div class="inner">
+                  <h3>Profit</h3>
+
+                  <p>Ratio</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-bag"></i>
+                </div>
+                <a href="profit.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->

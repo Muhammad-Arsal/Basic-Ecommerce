@@ -35,6 +35,7 @@ if (isset($_POST['submit'])) {
             "product_id" => $_POST['product_id'][$i],
             "stock" => $_POST['stock'][$i],
             "cost_price" => $_POST['cp'][$i],
+            "sale_price" => $_POST['cp'][$i] * $_POST['tax'][$i] / 100,
         );
 
         $iid = $_POST['product_id'][$i];
@@ -128,16 +129,22 @@ if (isset($_POST['submit'])) {
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-3">
+                            <div class="col-2">
                                 <div class="form-group">
                                     <label for="Stock">Stock</label>
                                     <input id="Stock" class="form-control stock" type="text" name="stock[]">
                                 </div>
                             </div>
-                            <div class="col-3">
+                            <div class="col-2">
                                 <div class="form-group ">
                                     <label for="cost_price">Cost Price</label>
                                     <input id="cost_price" class="form-control cp" type="text" name="cp[]">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <label for="">Tax %</label>
+                                    <input id="" class="form-control" type="text" name="tax[]">
                                 </div>
                             </div>
                             <div class="col-2">
@@ -155,10 +162,10 @@ if (isset($_POST['submit'])) {
                             </div>
                         </div>
                         <div class="row subs">
-                            <div class="col-6">
+                            <div class="col-8">
                                 <h3 class="float-right">Sub total</h3>
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div class="form-group">
                                     <input id="" class="form-control sub_total" type="text" name="sub_total" readonly value="-">
                                 </div>
@@ -265,9 +272,7 @@ if (isset($_POST['submit'])) {
             var button = $(".form-button").clone(true, true);
             $(".seller_selection").on('change', function() {
                 var value = $(this).val();
-                console.log(value);
                 var man = $(this).parent().parent().parent().next().find("select.custom2");
-                console.log(man);
                 $(man).empty();
                 $.ajax({
                     type: 'post',
@@ -336,10 +341,10 @@ if (isset($_POST['submit'])) {
 
 
                 if ($.isNumeric(current_value) && $.isNumeric(value_cp)) {
-                    var total_price_val = $(this).parent().parent().next().next().find(".total");
+                    var total_price_val = $(this).parent().parent().next().next().next().find(".total");
                     $(total_price_val).val(value_cp * current_value);
                 } else {
-                    var total_price_val = $(this).parent().parent().next().next().find(".total");
+                    var total_price_val = $(this).parent().parent().next().next().next().find(".total");
                     $(total_price_val).val('');
                 }
 
@@ -349,6 +354,9 @@ if (isset($_POST['submit'])) {
                     if ($.isNumeric(man)) {
                         sum += man;
                         $(".sub_total").val(sum);
+                    } else {
+                        $(".sub_total").val('');
+
                     }
                 })
             })
@@ -361,7 +369,8 @@ if (isset($_POST['submit'])) {
                 var stock_value = $(stock).val();
 
                 if ($.isNumeric(current_value) && $.isNumeric(stock_value)) {
-                    var total_price_val = $(this).parent().parent().next().find(".total");
+                    var total_price_val = $(this).parent().parent().next().next().find(".total");
+                    console.log(total_price_val);
                     $(total_price_val).val(stock_value * current_value);
                 } else {
                     var total_price_val = $(this).parent().parent().next().next().find(".total");
@@ -373,6 +382,9 @@ if (isset($_POST['submit'])) {
                     if ($.isNumeric(man)) {
                         sum += man;
                         $(".sub_total").val(sum);
+                    } else {
+                        $(".sub_total").val('');
+
                     }
                 })
             })
