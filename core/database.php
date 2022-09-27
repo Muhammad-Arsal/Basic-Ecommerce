@@ -28,15 +28,13 @@ function select_all($table, $connection)
 {
     $select_que = "SELECT * FROM $table";
     $res = mysqli_query($connection, $select_que);
-    if (!$res) {
-        return false;
-    } else {
-        if (mysqli_num_rows($res) > 0) {
-            while ($row = mysqli_fetch_assoc($res)) {
-                $data[] = $row;
-            }
+    if (mysqli_num_rows($res) > 0) {
+        while ($row = mysqli_fetch_assoc($res)) {
+            $data[] = $row;
         }
         return $data;
+    } else {
+        return false;
     }
 }
 function select_where($table, $column, $select_id, $connection, $data_repeat)

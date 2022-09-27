@@ -296,6 +296,7 @@ if (isset($_POST['submit'])) {
                 var trash = $(this_button).siblings();
 
                 var distinct_form = $(this_button).parent().parent().parent();
+                console.log(distinct_form);
 
                 var form_html = $(distinct_form).clone(true, true);
 

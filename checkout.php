@@ -2,86 +2,86 @@
 require_once "./core/database.php";
 session_start();
 if (isset($_POST['login'])) {
-  $name = $_POST['name'];
-  $pass = $_POST['password'];
+    $name = $_POST['name'];
+    $pass = $_POST['password'];
 
-  $name = trim($name);
+    $name = trim($name);
 
-  $que = "SELECT id,email_num,password FROM user_credentials WHERE email_num='$name' AND password = '$pass'";
-  $result = mysqli_query($connection, $que);
-  if (mysqli_num_rows($result)) {
-    $row = mysqli_fetch_assoc($result);
+    $que = "SELECT id,email_num,password FROM user_credentials WHERE email_num='$name' AND password = '$pass'";
+    $result = mysqli_query($connection, $que);
+    if (mysqli_num_rows($result)) {
+        $row = mysqli_fetch_assoc($result);
 
-    if ($name == $row['email_num'] && $pass == $row['password']) {
+        if ($name == $row['email_num'] && $pass == $row['password']) {
 
-      $_SESSION['user_login'] = $row['id'];
-      if (isset($_POST['selector'])) {
-        setcookie("remember_me", $row['id'], time() + (86400 * 30), "/");
-      }
-      header("location: checkout.php");
+            $_SESSION['user_login'] = $row['id'];
+            if (isset($_POST['selector'])) {
+                setcookie("remember_me", $row['id'], time() + (86400 * 30), "/");
+            }
+            header("location: checkout.php");
+        }
     }
-  }
 }
 $country_name = select_all("country_name", $connection);
 if (isset($_SESSION['user_login'])) {
-  $user_id = $_SESSION['user_login'];
+    $user_id = $_SESSION['user_login'];
 }
 if (isset($_POST['proceed'])) {
-  $random_number = rand(1000, 10000);
-  $forms_data = array(
-    "first_name" => $_POST['first_name'],
-    "last_name" => $_POST['last_name'],
-    "phone_number" => $_POST['number'],
-    "email" => $_POST['email'],
-    "country_id" => $_POST['country_select'],
-    "address" => $_POST['address'],
-    "postal_code" => $_POST['zip'],
-    "city" => $_POST['city'],
-    "order_number" => $random_number,
-    "user_id" => $user_id
-  );
-
-  insert_func("order_details", $forms_data, $connection);
-  $last_id = mysqli_insert_id($connection);
-
-
-  $cart_session = $_SESSION['cart_items'];
-
-  $items_in_cart = array_count_values($cart_session);
-
-  print_r($items_in_cart);
-
-  foreach ($items_in_cart as $key => $value) {
-
-    $ordered_details = array();
-    $product_details = select_where("seller_products", "product_id", $key, $connection, 1);
-    $ordered_details = array(
-      "product_id" => $key,
-      "order_id" => $last_id,
-      "quantity" => $value,
-      "single_price" => $product_details['sale_price'],
-      "total_price" => $product_details['sale_price'] * $value,
-      "order_number" => $random_number,
-      "status"=> 0,
-      "user_id"=> $user_id,
+    $random_number = rand(1000, 10000);
+    $forms_data = array(
+        "first_name" => $_POST['first_name'],
+        "last_name" => $_POST['last_name'],
+        "phone_number" => $_POST['number'],
+        "email" => $_POST['email'],
+        "country_id" => $_POST['country_select'],
+        "address" => $_POST['address'],
+        "postal_code" => $_POST['zip'],
+        "city" => $_POST['city'],
+        "order_number" => $random_number,
+        "user_id" => $user_id
     );
-    insert_func("ordered_products", $ordered_details, $connection);
-    $total_quantity = select_where("seller_products", "product_id", $key, $connection, 1);
-    $current_quantity = $total_quantity['stock'];
-    $main_array = array(
-      "stock" => $current_quantity - $value
+
+    insert_func("order_details", $forms_data, $connection);
+    $last_id = mysqli_insert_id($connection);
+
+
+    $cart_session = $_SESSION['cart_items'];
+
+    $items_in_cart = array_count_values($cart_session);
+
+    print_r($items_in_cart);
+
+    foreach ($items_in_cart as $key => $value) {
+
+        $ordered_details = array();
+        $product_details = select_where("seller_products", "product_id", $key, $connection, 1);
+        $ordered_details = array(
+            "product_id" => $key,
+            "order_id" => $last_id,
+            "quantity" => $value,
+            "single_price" => $product_details['sale_price'],
+            "total_price" => $product_details['sale_price'] * $value,
+            "order_number" => $random_number,
+            "status" => 0,
+            "user_id" => $user_id,
+        );
+        insert_func("ordered_products", $ordered_details, $connection);
+        $total_quantity = select_where("seller_products", "product_id", $key, $connection, 1);
+        $current_quantity = $total_quantity['stock'];
+        $main_array = array(
+            "stock" => $current_quantity - $value
+        );
+        $id_array = array(
+            "product_id" => $key
+        );
+        update("seller_products", $main_array, $id_array, $connection);
+    }
+    $notification_array = array(
+        "order_id" => $last_id
     );
-    $id_array = array(
-      "product_id" => $key
-    );
-    update("seller_products", $main_array, $id_array, $connection);
-  }
-  $notification_array = array(
-    "order_id" => $last_id
-  );
-  insert_func("notification", $notification_array, $connection);
-  unset($_SESSION['cart_items']);
-  header("location: confirmation.php");
+    insert_func("notification", $notification_array, $connection);
+    unset($_SESSION['cart_items']);
+    header("location: confirmation.php");
 }
 ?>
 <!doctype php>
@@ -114,22 +114,22 @@ if (isset($_POST['proceed'])) {
         <!-- style CSS -->
         <link rel="stylesheet" href="css/style.css">
         <style>
-        .badge:after {
-            content: attr(value);
-            font-size: 12px;
-            color: #fff;
-            background: red;
-            border-radius: 50%;
-            padding: 0 5px;
-            position: relative;
-            left: -8px;
-            top: -10px;
-            opacity: 0.9;
-        }
+            .badge:after {
+                content: attr(value);
+                font-size: 12px;
+                color: #fff;
+                background: red;
+                border-radius: 50%;
+                padding: 0 5px;
+                position: relative;
+                left: -8px;
+                top: -10px;
+                opacity: 0.9;
+            }
 
-        .error {
-            color: red;
-        }
+            .error {
+                color: red;
+            }
         </style>
     </head>
 
@@ -141,9 +141,7 @@ if (isset($_POST['proceed'])) {
                     <div class="col-lg-12">
                         <nav class="navbar navbar-expand-lg navbar-light">
                             <a class="navbar-brand" href="index.php"> <img src="img/logo.png" alt="logo"> </a>
-                            <button class="navbar-toggler" type="button" data-toggle="collapse"
-                                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                                aria-expanded="false" aria-label="Toggle navigation">
+                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="menu_icon"><i class="fas fa-bars"></i></span>
                             </button>
 
@@ -166,11 +164,9 @@ if (isset($_POST['proceed'])) {
                                 <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a>
                                 <a href=""><i class="ti-heart"></i></a>
                                 <div class="dropdown cart">
-                                    <a href="cart.php"><i class="fa badge cart_count"
-                                            style="font-size:14px; margin-left: 15px;"
-                                            value="<?php if (isset($_SESSION['cart_items'])) {
-                                                                                                                        echo count($_SESSION['cart_items']);
-                                                                                                                      } ?>">&#xf07a;</i></a>
+                                    <a href="cart.php"><i class="fa badge cart_count" style="font-size:14px; margin-left: 15px;" value="<?php if (isset($_SESSION['cart_items'])) {
+                                                                                                                                            echo count($_SESSION['cart_items']);
+                                                                                                                                        } ?>">&#xf07a;</i></a>
                                     <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <div class="single_product">
 
@@ -219,40 +215,38 @@ if (isset($_POST['proceed'])) {
                 <div class="returning_customer">
 
                     <?php
-          if (!isset($_SESSION['user_login']) && !isset($_COOKIE['remember_me'])) {
-          ?>
-                    <div class="check_title">
-                        <h2>
-                            New Customer?
-                            <a href="register.php">Click here to Register</a>
-                        </h2>
-                    </div>
-                    <p>
-                        If you have shopped with us before,Enter your credentials
-                    </p>
-                    <form class="row contact_form" action="checkout.php" method="post" novalidate="novalidate">
-                        <div class="col-md-6 form-group p_star">
-                            <input type="text" class="form-control" id="name" name="name" value=" "
-                                placeholder="Mobile Number or Email" />
+                    if (!isset($_SESSION['user_login']) && !isset($_COOKIE['remember_me'])) {
+                    ?>
+                        <div class="check_title">
+                            <h2>
+                                New Customer?
+                                <a href="register.php">Click here to Register</a>
+                            </h2>
+                        </div>
+                        <p>
+                            If you have shopped with us before,Enter your credentials
+                        </p>
+                        <form class="row contact_form" action="checkout.php" method="post" novalidate="novalidate">
+                            <div class="col-md-6 form-group p_star">
+                                <input type="text" class="form-control" id="name" name="name" value=" " placeholder="Mobile Number or Email" />
 
-                        </div>
-                        <div class="col-md-6 form-group p_star">
-                            <input type="password" class="form-control" id="password" name="password" value=""
-                                placeholder="Password" />
-                        </div>
-                        <div class="col-md-12 form-group">
-                            <button type="submit" value="submit" class="btn_3" name="login">
-                                log in
-                            </button>
-                            <div class="creat_account">
-                                <input type="checkbox" id="f-option" name="selector" />
-                                <label for="f-option">Remember me</label>
                             </div>
-                        </div>
-                    </form>
+                            <div class="col-md-6 form-group p_star">
+                                <input type="password" class="form-control" id="password" name="password" value="" placeholder="Password" />
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <button type="submit" value="submit" class="btn_3" name="login">
+                                    log in
+                                </button>
+                                <div class="creat_account">
+                                    <input type="checkbox" id="f-option" name="selector" />
+                                    <label for="f-option">Remember me</label>
+                                </div>
+                            </div>
+                        </form>
                     <?php
-          }
-          ?>
+                    }
+                    ?>
                 </div>
                 <div class="billing_details">
                     <div class="row">
@@ -260,51 +254,44 @@ if (isset($_POST['proceed'])) {
                             <h3>Billing Details</h3>
                             <form class="row contact_form" action="checkout.php" method="post" novalidate="novalidate">
                                 <div class="col-md-6 form-group p_star">
-                                    <input type="text" class="form-control" id="first" name="first_name"
-                                        placeholder="First Name" />
+                                    <input type="text" class="form-control" id="first" name="first_name" placeholder="First Name" />
                                 </div>
                                 <div class="col-md-6 form-group p_star">
-                                    <input type="text" class="form-control" id="last" name="last_name"
-                                        placeholder="Last Name" />
+                                    <input type="text" class="form-control" id="last" name="last_name" placeholder="Last Name" />
                                 </div>
                                 <div class="col-md-6 form-group p_star">
-                                    <input type="text" class="form-control" id="number" name="number"
-                                        placeholder="Phone Number" />
+                                    <input type="text" class="form-control" id="number" name="number" placeholder="Phone Number" />
 
                                 </div>
                                 <div class="col-md-6 form-group p_star">
-                                    <input type="email" class="form-control" id="email" name="email"
-                                        placeholder="Email" />
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" />
                                 </div>
                                 <div class="col-md-12 form-group p_star">
                                     <select class="country_select" name="country_select">
                                         <?php
-                    foreach ($country_name as $names) {
-                    ?>
-                                        <option value="<?php echo $names['id']; ?> "><?php echo $names['name'] ?>
-                                        </option>
+                                        foreach ($country_name as $names) {
+                                        ?>
+                                            <option value="<?php echo $names['id']; ?> "><?php echo $names['name'] ?>
+                                            </option>
                                         <?php
-                    }
-                    ?>
+                                        }
+                                        ?>
 
                                     </select>
                                 </div>
                                 <div class="col-md-12 form-group p_star">
-                                    <input type="text" class="form-control" id="add1" name="address"
-                                        placeholder="Address" />
+                                    <input type="text" class="form-control" id="add1" name="address" placeholder="Address" />
                                 </div>
                                 <div class="col-md-12 form-group p_star">
-                                    <input type="text" class="form-control" id="city" name="city"
-                                        placeholder="City/town" />
+                                    <input type="text" class="form-control" id="city" name="city" placeholder="City/town" />
 
                                 </div>
                                 <div class="col-md-12 form-group">
-                                    <input type="text" class="form-control" id="zip" name="zip"
-                                        placeholder="Postcode/ZIP" placeholder="Postcode/ZIP" />
+                                    <input type="text" class="form-control" id="zip" name="zip" placeholder="Postcode/ZIP" placeholder="Postcode/ZIP" />
                                 </div>
                                 <?php
-                if (isset($_SESSION['user_login']) || isset($_COOKIE['remember_me'])) { ?>
-                                <input type="submit" name="proceed" id="" class="btn_3" value="Proceed to Confirmation">
+                                if (isset($_SESSION['user_login']) || isset($_COOKIE['remember_me'])) { ?>
+                                    <input type="submit" name="proceed" id="" class="btn_3" value="Proceed to Confirmation">
                                 <?php } ?>
                             </form>
                         </div>
@@ -318,27 +305,26 @@ if (isset($_POST['proceed'])) {
                                         </a>
                                     </li>
                                     <?php
-                  $session_count = $_SESSION['cart_items'];
-                  $number_of_repeat = count($_SESSION['cart_items']);
+                                    $session_count = $_SESSION['cart_items'];
+                                    $number_of_repeat = count($_SESSION['cart_items']);
 
-                  $total_items = array_count_values($session_count);
+                                    $total_items = array_count_values($session_count);
 
-                  $sub_total = 0;
-                  foreach ($total_items as $key => $value) {
-                    $supplier_data = select_where("seller_products", "product_id", $key, $connection, 1);
-                    $products_name = select_where("products", "id", $key, $connection, 1);
-                    $sub_total += $supplier_data['sale_price'] * $value;
-                  ?>
-                                    <li>
-                                        <a href="#"><?php echo $products_name['product_name']; ?>
-                                            <span class="middle">x<?php echo $value ?></span>
-                                            <span
-                                                class="last"><?php echo $supplier_data['sale_price'] * $value; ?>$</span>
-                                        </a>
-                                    </li>
+                                    $sub_total = 0;
+                                    foreach ($total_items as $key => $value) {
+                                        $supplier_data = select_where("seller_products", "product_id", $key, $connection, 1);
+                                        $products_name = select_where("products", "id", $key, $connection, 1);
+                                        $sub_total += $supplier_data['sale_price'] * $value;
+                                    ?>
+                                        <li>
+                                            <a href="#"><?php echo $products_name['product_name']; ?>
+                                                <span class="middle">x<?php echo $value ?></span>
+                                                <span class="last"><?php echo $supplier_data['sale_price'] * $value; ?>$</span>
+                                            </a>
+                                        </li>
                                     <?php
-                  }
-                  ?>
+                                    }
+                                    ?>
                                 </ul>
 
                                 <ul class="list list_2">
@@ -410,14 +396,9 @@ if (isset($_POST['proceed'])) {
                             <p>Heaven fruitful doesn't over lesser in days. Appear creeping
                             </p>
                             <div id="mc_embed_signup">
-                                <form target="_blank"
-                                    action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-                                    method="get" class="subscribe_form relative mail_part">
-                                    <input type="email" name="email" id="newsletter-form-email"
-                                        placeholder="Email Address" class="placeholder hide-on-focus"
-                                        onfocus="this.placeholder = ''" onblur="this.placeholder = ' Email Address '">
-                                    <button type="submit" name="submit" id="newsletter-submit"
-                                        class="email_icon newsletter-submit button-contactForm">subscribe</button>
+                                <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscribe_form relative mail_part">
+                                    <input type="email" name="email" id="newsletter-form-email" placeholder="Email Address" class="placeholder hide-on-focus" onfocus="this.placeholder = ''" onblur="this.placeholder = ' Email Address '">
+                                    <button type="submit" name="submit" id="newsletter-submit" class="email_icon newsletter-submit button-contactForm">subscribe</button>
                                     <div class="mt-10 info"></div>
                                 </form>
                             </div>
@@ -434,10 +415,8 @@ if (isset($_POST['proceed'])) {
                                 <P>
                                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                                     Copyright &copy;<script>
-                                    document.write(new Date().getFullYear());
-                                    </script> All rights reserved | This template is made with <i class="ti-heart"
-                                        aria-hidden="true"></i> by <a href="https://colorlib.com"
-                                        target="_blank">Colorlib</a>
+                                        document.write(new Date().getFullYear());
+                                    </script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
                                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                                 </P>
                             </div>
@@ -489,30 +468,30 @@ if (isset($_POST['proceed'])) {
         <!-- custom js -->
         <script src="js/custom.js"></script>
         <script>
-        $(document).ready(function() {
-            $(".contact_form").validate({
-                rules: {
-                    first_name: 'required',
-                    last_name: 'required',
-                    city: 'required',
-                    number: 'required',
-                    email: 'required',
-                    address: 'required',
-                    zip: 'required',
-                    country_select: 'required',
-                },
-                message: {
-                    first_name: 'Field is required',
-                    last_name: 'Field is required',
-                    city: 'Field is required',
-                    number: 'Field is required',
-                    email: 'Field is required',
-                    address: 'Field is required',
-                    zip: 'Field is required',
-                    country_select: 'Field is required',
-                }
-            })
-        });
+            $(document).ready(function() {
+                $(".contact_form").validate({
+                    rules: {
+                        first_name: 'required',
+                        last_name: 'required',
+                        city: 'required',
+                        number: 'required',
+                        email: 'required',
+                        address: 'required',
+                        zip: 'required',
+                        country_select: 'required',
+                    },
+                    message: {
+                        first_name: 'Field is required',
+                        last_name: 'Field is required',
+                        city: 'Field is required',
+                        number: 'Field is required',
+                        email: 'Field is required',
+                        address: 'Field is required',
+                        zip: 'Field is required',
+                        country_select: 'Field is required',
+                    }
+                })
+            });
         </script>
 
     </body>
