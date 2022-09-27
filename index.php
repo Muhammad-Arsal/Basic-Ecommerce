@@ -617,7 +617,7 @@ if (isset($_SESSION['user_login'])) {
                         const obj = JSON.parse(response);
                         console.log(obj);
                         if (obj.num == 1) {
-                            $(".btn_3").replaceWith('<a href="user_dash.php" class="btn btn_3">' + obj.name + '</a>')
+                            $(".btn_3").replaceWith('<a href="./userDash/index.php" class="btn btn_3">' + obj.name + '</a>')
                             $("#modal").css("display", "none");
                             $("#lean_overlay").css({
                                 "display": "none",

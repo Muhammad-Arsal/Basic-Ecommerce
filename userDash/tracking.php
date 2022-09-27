@@ -3,7 +3,7 @@ require_once "../core/database.php";
 session_start();
 if (!isset($_SESSION['uid']) && !isset($_COOKIE['remember_me'])) {
 
-    header("location: login.php");
+    header("location: ../index.php");
 }
 $customer_name = select_all("ordered_products", $connection);
 ?>
@@ -11,7 +11,6 @@ $customer_name = select_all("ordered_products", $connection);
 <html lang="en">
 
 <head>
-    <script src="https://kit.fontawesome.com/28530d02a0.js" crossorigin="anonymous"></script>
     <?php
 
     include "commonADMIN/head.php"
@@ -159,6 +158,9 @@ $customer_name = select_all("ordered_products", $connection);
         <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
+    <?php
+    require_once "commonADMIN/footer.php";
+    ?>
     <?php
     require_once "commonADMIN/commonfooter.php";
     ?>
