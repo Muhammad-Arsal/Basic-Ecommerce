@@ -87,7 +87,7 @@ if (isset($_SESSION['user_login'])) {
                             <?php if (!isset($_SESSION['user_login']) && !isset($_COOKIE['remember_me'])) { ?>
                                 <a id="modal_trigger" href="#modal" class="btn btn_3">Login/Register</a>
                             <?php } else { ?>
-                                <a href="user_dash.php" class="btn btn_3"><?php echo $from_db['name']; ?></a>
+                                <a href="./userDash/index.php" class="btn btn_3"><?php echo $from_db['name']; ?></a>
                             <?php } ?>
                             <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a>
                             <a href="./wishlist.php"><i class="ti-heart"></i></a>

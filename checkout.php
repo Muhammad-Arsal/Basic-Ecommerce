@@ -309,6 +309,10 @@ if (isset($_POST['proceed'])) {
                                 <div class="col-md-12 form-group">
                                     <input type="text" class="form-control" id="zip" name="zip" placeholder="Postcode/ZIP" placeholder="Postcode/ZIP" />
                                 </div>
+                                <div class="col-md-12 form-group">
+                                    <input type="text" class="form-control coupon" id="" name="coupon" placeholder="Enter Coupon Number" />
+                                    <p class="coupon_status"></p>
+                                </div>
                                 <?php
                                 if (isset($_SESSION['user_login']) || isset($_COOKIE['remember_me'])) { ?>
                                     <input type="submit" name="proceed" id="" class="btn_3" value="Proceed to Confirmation">
@@ -339,7 +343,7 @@ if (isset($_POST['proceed'])) {
                                         <li>
                                             <a href="#"><?php echo $products_name['product_name']; ?>
                                                 <span class="middle">x<?php echo $value ?></span>
-                                                <span class="last"><?php echo $supplier_data['sale_price'] * $value; ?>$</span>
+                                                <span data-quantity="<?php echo $value; ?>" data-costPrice="<?php echo $supplier_data['cost_price'] ?>" class="last"><?php echo $supplier_data['sale_price'] * $value; ?>$</span>
                                             </a>
                                         </li>
                                     <?php
@@ -350,7 +354,7 @@ if (isset($_POST['proceed'])) {
                                 <ul class="list list_2">
                                     <li>
                                         <a href="#">Subtotal
-                                            <span><?php echo $sub_total; ?>$</span>
+                                            <span class="main_det" data-subs="<?php echo $sub_total; ?>"><?php echo $sub_total; ?>$</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -510,6 +514,49 @@ if (isset($_POST['proceed'])) {
                         zip: 'Field is required',
                         country_select: 'Field is required',
                     }
+                })
+
+                $(".coupon").on("input", function() {
+                    var inserted_coupon = $(".coupon").val();
+                    var total_of_all = 0;
+                    var sub_total_of_all = $(".main_det").data("subs");
+                    $.ajax({
+                        type: "post",
+                        url: "coupon_working.php",
+                        data: {
+                            coupon_number: inserted_coupon,
+                        },
+                        success: function(response) {
+                            if (response != 0) {
+                                $(".last").each(function() {
+                                    var cost_prices = $(this).attr("data-costPrice");
+                                    var quantity = $(this).attr("data-quantity");
+
+                                    var quantity = parseInt(quantity);
+                                    var cp = parseInt(cost_prices);
+
+                                    var all_added = quantity * cp;
+                                    total_of_all = total_of_all + all_added;
+                                })
+                                var cut_amount = parseInt(sub_total_of_all * response / 100);
+
+                                var new_subs_amount = parseInt(sub_total_of_all - cut_amount);
+                                console.log(new_subs_amount);
+                                console.log(total_of_all);
+
+                                if (new_subs_amount > total_of_all) {
+                                    $(".coupon_status").css("color", "Green");
+                                    $(".coupon_status").text("Coupon Applied Successfully")
+                                    $(".main_det").text(new_subs_amount + "$");
+                                } else {
+                                    $(".coupon_status").text("Coupon cannot be applied");
+                                }
+                            } else {
+                                $(".coupon_status").css("color", "Red");
+                                $(".coupon_status").text("Wrong Coupon Number");
+                            }
+                        }
+                    });
                 })
             });
         </script>

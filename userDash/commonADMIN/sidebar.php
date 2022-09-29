@@ -176,6 +176,14 @@ $customer_current_name = select_where("user_credentials", "id", $current_id, $co
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="./available_coupon.php" class="nav-link">
+                        <i class="nav-icon fas fa-edit"></i>
+                        <p>
+                            Available Coupons
+                        </p>
+                    </a>
+                </li>
 
             </ul>
         </nav>

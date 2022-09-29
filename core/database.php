@@ -42,6 +42,7 @@ function select_where($table, $column, $select_id, $connection, $data_repeat)
     $selective = "SELECT * FROM $table WHERE $column = $select_id";
 
     $que_res = mysqli_query($connection, $selective);
+
     if (mysqli_num_rows($que_res) > 0) {
         while ($row = mysqli_fetch_assoc($que_res)) {
             $data[] = $row;
