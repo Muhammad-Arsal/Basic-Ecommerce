@@ -49,8 +49,6 @@ if (isset($_POST['proceed'])) {
 
     $items_in_cart = array_count_values($cart_session);
 
-    print_r($items_in_cart);
-
     foreach ($items_in_cart as $key => $value) {
 
         $ordered_details = array();
@@ -77,9 +75,73 @@ if (isset($_POST['proceed'])) {
         update("seller_products", $main_array, $id_array, $connection);
     }
     $notification_array = array(
-        "order_id" => $last_id
+        "order_id" => $last_id,
+        "status" => 0,
     );
     insert_func("notification", $notification_array, $connection);
+    if ($user_id) {
+
+        $coupon_policy = select_all("coupon", $connection); //getting all coupons
+
+        $order_main = select_where("ordered_products", "user_id", $user_id, $connection, 2);
+        $how_many_orders = count($order_main); //getting number of ordered products by user
+
+        $match_coupon_with_orders = select_where("coupon", "orders", $how_many_orders, $connection, 1);
+
+        if (!empty($match_coupon_with_orders)) {
+            $main_array_coupon_data = array(
+                ""
+            );
+        }
+
+
+        // foreach ($coupon_policy as $main_coupon_data) {
+        //     $demo_test_data[] = $main_coupon_data['orders'];
+        // }
+        // $count_of_all_coupons = count($demo_test_data);
+
+        // foreach ($user_existed_coupons as $existed) {
+
+        //     for ($i = 0; $i < $count_of_all_coupons; $i++) {
+
+        //         if ($existed['coupon_id'] == $demo_test_data[$i]) {
+        //             continue;
+        //         } else {
+        //             if ($how_many_orders >= $demo_test_data[$i]) {
+
+        //                 $coupon_main_id = $demo_test_data;
+        //                 $coupon_insertion = select_where("coupon", "orders", $coupon_main_id, $connection, 1);
+        //                 $insert_into_table_id = $coupon_insertion['id'];
+
+        //                 $main_coupon_array = array(
+        //                     "user_id" => $user_id,
+        //                     "coupon_id" => $insert_into_table_id,
+        //                 );
+        //                 insert_func("user_coupon", $main_coupon_array, $connection);
+        //             }
+        //         }
+        //     }
+
+        //     // if ($existed['coupon_id'] == $main_coupon_data['id']) {
+        //     // } else {
+        //     //     echo "hello";
+        //     //     die();
+
+        //     //     if ($how_many_orders >= $demo_test_data) {
+
+        //     //         $coupon_main_id = $demo_test_data;
+        //     //         $coupon_insertion = select_where("coupon", "orders", $coupon_main_id, $connection, 1);
+        //     //         $insert_into_table_id = $coupon_insertion['id'];
+
+        //     //         $main_coupon_array = array(
+        //     //             "user_id" => $user_id,
+        //     //             "coupon_id" => $insert_into_table_id,
+        //     //         );
+        //     //         insert_func("user_coupon", $main_coupon_array, $connection);
+        //     //     }
+        //     // }
+        // }
+    }
     unset($_SESSION['cart_items']);
     header("location: confirmation.php");
 }

@@ -19,7 +19,6 @@ if (isset($_POST['submit'])) {
         "product_image" => $newfilename,
         "product_description" => $_POST['description'],
         "product_details" => $_POST['details'],
-        "arrived_at" => $date,
         "category_id" => $_POST['cat'],
         "seller" => $_POST['seller'],
     );

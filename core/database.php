@@ -1,5 +1,5 @@
 <?php
-$connection = mysqli_connect("localhost", "root", "", "ecommerce");
+$connection = mysqli_connect("localhost", "root", "root", "ecommerce");
 
 if (!$connection) {
     die("No connection established");

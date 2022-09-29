@@ -65,23 +65,25 @@ if (mysqli_num_rows($result) > 0) {
                     <tbody>
                         <?php
                         $i = 1;
-                        foreach ($data as $all_details) {
-                            $keyy = $all_details['country_id'];
-                            $name = select_where("country_name", "id", $keyy, $connection, 1);
+                        if (!empty($data)) {
+                            foreach ($data as $all_details) {
+                                $keyy = $all_details['country_id'];
+                                $name = select_where("country_name", "id", $keyy, $connection, 1);
                         ?>
-                            <tr>
-                                <th scope="row"><?php echo $i++; ?></th>
-                                <td><?php echo $all_details['order_number']; ?></td>
-                                <td><?php echo $all_details['product_name']; ?></td>
-                                <td><?php echo $all_details['total_price']; ?></td>
-                                <td><?php echo $all_details['quantity']; ?></td>
-                                <th><?php echo $all_details['first_name'] . ' ' . $all_details['last_name']; ?></th>
-                                <th><?php echo $name['name']; ?></th>
-                                <th><?php echo $all_details['city'] ?></th>
-                                <th><?php echo $all_details['address']; ?></th>
-                                <th><?php echo $all_details['postal_code']; ?></th>
-                            </tr>
+                                <tr>
+                                    <th scope="row"><?php echo $i++; ?></th>
+                                    <td><?php echo $all_details['order_number']; ?></td>
+                                    <td><?php echo $all_details['product_name']; ?></td>
+                                    <td><?php echo $all_details['total_price']; ?></td>
+                                    <td><?php echo $all_details['quantity']; ?></td>
+                                    <th><?php echo $all_details['first_name'] . ' ' . $all_details['last_name']; ?></th>
+                                    <th><?php echo $name['name']; ?></th>
+                                    <th><?php echo $all_details['city'] ?></th>
+                                    <th><?php echo $all_details['address']; ?></th>
+                                    <th><?php echo $all_details['postal_code']; ?></th>
+                                </tr>
                         <?php
+                            }
                         }
                         ?>
                     </tbody>
