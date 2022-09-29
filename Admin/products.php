@@ -54,32 +54,38 @@ $prodVal = select_all("products", $connection);
                     <tbody>
                         <?php
                         $i = 1;
-                        foreach ($prodVal as $values) {
+                        if (!empty($prodVal)) {
+                            foreach ($prodVal as $values) {
 
-                            $prod_id = $values['category_id'];
-                            $catVal = select_where("category", "id", $prod_id, $connection, 1);
-                            $current_id = $values['id'];
-                            $new_seller_values = select_where("seller_products","product_id",$current_id,$connection,1);
+                                $prod_id = $values['category_id'];
+                                $catVal = select_where("category", "id", $prod_id, $connection, 1);
+                                $current_id = $values['id'];
+                                $new_seller_values = select_where("seller_products", "product_id", $current_id, $connection, 1);
 
                         ?>
-                            <tr>
-                                <th scope="row"><?php echo $i++ ?></th>
-                                <td><img src="<?php echo '../productimages/' . $values['product_image']; ?>" style="width: 100px; height: 100px;" alt=""></td>
-                                <td><?php echo $values['product_name']; ?></td>
-                                <td><?php echo $values['product_description']; ?></td>
-                                <td><?php if(!empty($new_seller_values['stock'])){echo $new_seller_values['stock'];}else{
-                                    echo 0;
-                                }  ?></td>
-                                <td><?php echo $catVal['name']; ?></td>
-                                <td><?php if(!empty($new_seller_values['cost_price'])){echo $new_seller_values['cost_price']; }else{
-                                    echo 0;
-                                } ?></td>
-                                <td>
-                                    <a href="editproducts.php?id=<?php echo $values['id']; ?>"> <i class="fa fa-pencil"></i></a>
-                                    <a href="deleteproduct.php?id=<?php echo $values['id']; ?>"><i class="fa fa-trash"></i></a>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <th scope="row"><?php echo $i++ ?></th>
+                                    <td><img src="<?php echo '../productimages/' . $values['product_image']; ?>" style="width: 100px; height: 100px;" alt=""></td>
+                                    <td><?php echo $values['product_name']; ?></td>
+                                    <td><?php echo $values['product_description']; ?></td>
+                                    <td><?php if (!empty($new_seller_values['stock'])) {
+                                            echo $new_seller_values['stock'];
+                                        } else {
+                                            echo 0;
+                                        }  ?></td>
+                                    <td><?php echo $catVal['name']; ?></td>
+                                    <td><?php if (!empty($new_seller_values['cost_price'])) {
+                                            echo $new_seller_values['cost_price'];
+                                        } else {
+                                            echo 0;
+                                        } ?></td>
+                                    <td>
+                                        <a href="editproducts.php?id=<?php echo $values['id']; ?>"> <i class="fa fa-pencil"></i></a>
+                                        <a href="deleteproduct.php?id=<?php echo $values['id']; ?>"><i class="fa fa-trash"></i></a>
+                                    </td>
+                                </tr>
                         <?php
+                            }
                         }
                         ?>
                     </tbody>

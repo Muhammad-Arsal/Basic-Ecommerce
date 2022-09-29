@@ -106,42 +106,44 @@ $customer_name = select_all("ordered_products", $connection);
                         <tbody>
                             <?php
                             $i = 1;
-                            foreach ($customer_name as $all_data) {
-                                $products_id = $all_data['product_id'];
-                                $product_name = select_where("products", "id", $products_id, $connection, 1);
+                            if (!empty($customer_name)) {
+                                foreach ($customer_name as $all_data) {
+                                    $products_id = $all_data['product_id'];
+                                    $product_name = select_where("products", "id", $products_id, $connection, 1);
                             ?>
-                                <tr>
-                                    <th scope="row"><?php echo $i++; ?></th>
-                                    <td><?php echo "O-" . $all_data['order_id']; ?></td>
-                                    <td><?php echo $product_name['product_name']; ?></td>
-                                    <div class="main">
-                                        <td>
-                                            <label class="switch">
-                                                <input class="status" data-id="<?php echo $all_data['product_id']; ?>" value="<?php echo 0; ?>" type="checkbox" <?php if ($all_data['status'] == 0) {
-                                                                                                                                                                    echo "checked";
-                                                                                                                                                                } ?>>
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label class="switch">
-                                                <input class="status" data-id="<?php echo $all_data['product_id']; ?>" value="<?php echo 1; ?>" type="checkbox" <?php if ($all_data['status'] == 1) {
-                                                                                                                                                                    echo "checked";
-                                                                                                                                                                } ?>>
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label class="switch">
-                                                <input class="status" data-id="<?php echo $all_data['product_id']; ?>" value="<?php echo 2; ?>" type="checkbox" <?php if ($all_data['status'] == 2) {
-                                                                                                                                                                    echo "checked";
-                                                                                                                                                                } ?>>
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </td>
-                                    </div>
-                                </tr>
-                            <?php } ?>
+                                    <tr>
+                                        <th scope="row"><?php echo $i++; ?></th>
+                                        <td><?php echo "O-" . $all_data['order_id']; ?></td>
+                                        <td><?php echo $product_name['product_name']; ?></td>
+                                        <div class="main">
+                                            <td>
+                                                <label class="switch">
+                                                    <input class="status" data-id="<?php echo $all_data['product_id']; ?>" value="<?php echo 0; ?>" type="checkbox" <?php if ($all_data['status'] == 0) {
+                                                                                                                                                                        echo "checked";
+                                                                                                                                                                    } ?>>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="switch">
+                                                    <input class="status" data-id="<?php echo $all_data['product_id']; ?>" value="<?php echo 1; ?>" type="checkbox" <?php if ($all_data['status'] == 1) {
+                                                                                                                                                                        echo "checked";
+                                                                                                                                                                    } ?>>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="switch">
+                                                    <input class="status" data-id="<?php echo $all_data['product_id']; ?>" value="<?php echo 2; ?>" type="checkbox" <?php if ($all_data['status'] == 2) {
+                                                                                                                                                                        echo "checked";
+                                                                                                                                                                    } ?>>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </td>
+                                        </div>
+                                    </tr>
+                            <?php }
+                            } ?>
                         </tbody>
                     </table>
                 </div>
