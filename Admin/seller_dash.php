@@ -35,7 +35,7 @@ if (isset($_POST['submit'])) {
             "product_id" => $_POST['product_id'][$i],
             "stock" => $_POST['stock'][$i],
             "cost_price" => $_POST['cp'][$i],
-            "sale_price" => $_POST['cp'][$i] * $_POST['tax'][$i] / 100,
+            "sale_price" => $_POST['cp'][$i] + $_POST['cp'][$i] * ($_POST['tax'][$i] / 100),
         );
 
         $iid = $_POST['product_id'][$i];
@@ -50,7 +50,7 @@ if (isset($_POST['submit'])) {
             "product_name" => $existing_name,
             "stock" => $_POST['stock'][$i],
             "bill_no" => $bill_number,
-            "sale_price" => $_POST['cp'][$i] * $_POST['tax'][$i] / 100,
+            "sale_price" => $_POST['cp'][$i] + $_POST['cp'][$i] * ($_POST['tax'][$i] / 100),
         );
 
         if ($already_stock) {

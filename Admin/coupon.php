@@ -43,6 +43,7 @@ $how_many_coupons = select_all("coupon", $connection);
                             <th scope="col">#</th>
                             <th scope="col">Coupon Number</th>
                             <th scope="col">% of reduction</th>
+                            <th scope="col">Condition</th>
                             <th scope="col">Status</th>
                             <th scope="col">Action</th>
                         </tr>
@@ -58,6 +59,7 @@ $how_many_coupons = select_all("coupon", $connection);
                                     <th scope="row"><?php echo $i++; ?></th>
                                     <td><?php echo $all_details['coupon_number'] ?></td>
                                     <td><?php echo $all_details['reduce_percentage'] . "% off" ?></td>
+                                    <td><?php echo "On " . $all_details['orders'] . " orders"; ?></td>
                                     <td><?php if ($all_details['status'] == 1) {
                                             echo "Enabled";
                                         } else {

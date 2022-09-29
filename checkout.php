@@ -28,7 +28,8 @@ if (isset($_SESSION['user_login'])) {
 }
 if (isset($_POST['proceed'])) {
     $random_number = rand(1000, 10000);
-    $forms_data = array(
+
+    $order_details_array = array(
         "first_name" => $_POST['first_name'],
         "last_name" => $_POST['last_name'],
         "phone_number" => $_POST['number'],
@@ -41,9 +42,9 @@ if (isset($_POST['proceed'])) {
         "user_id" => $user_id
     );
 
-    insert_func("order_details", $forms_data, $connection);
-    $last_id = mysqli_insert_id($connection);
+    insert_func("order_details", $order_details_array, $connection);
 
+    $last_id = mysqli_insert_id($connection);
 
     $cart_session = $_SESSION['cart_items'];
 
@@ -79,6 +80,8 @@ if (isset($_POST['proceed'])) {
         "status" => 0,
     );
     insert_func("notification", $notification_array, $connection);
+
+
     if ($user_id) {
 
         $coupon_policy = select_all("coupon", $connection); //getting all coupons
@@ -88,59 +91,14 @@ if (isset($_POST['proceed'])) {
 
         $match_coupon_with_orders = select_where("coupon", "orders", $how_many_orders, $connection, 1);
 
+
         if (!empty($match_coupon_with_orders)) {
             $main_array_coupon_data = array(
-                ""
+                "coupon_id" => $match_coupon_with_orders['id'],
+                "user_id" => $user_id,
             );
+            insert_func("user_coupon", $main_array_coupon_data, $connection);
         }
-
-
-        // foreach ($coupon_policy as $main_coupon_data) {
-        //     $demo_test_data[] = $main_coupon_data['orders'];
-        // }
-        // $count_of_all_coupons = count($demo_test_data);
-
-        // foreach ($user_existed_coupons as $existed) {
-
-        //     for ($i = 0; $i < $count_of_all_coupons; $i++) {
-
-        //         if ($existed['coupon_id'] == $demo_test_data[$i]) {
-        //             continue;
-        //         } else {
-        //             if ($how_many_orders >= $demo_test_data[$i]) {
-
-        //                 $coupon_main_id = $demo_test_data;
-        //                 $coupon_insertion = select_where("coupon", "orders", $coupon_main_id, $connection, 1);
-        //                 $insert_into_table_id = $coupon_insertion['id'];
-
-        //                 $main_coupon_array = array(
-        //                     "user_id" => $user_id,
-        //                     "coupon_id" => $insert_into_table_id,
-        //                 );
-        //                 insert_func("user_coupon", $main_coupon_array, $connection);
-        //             }
-        //         }
-        //     }
-
-        //     // if ($existed['coupon_id'] == $main_coupon_data['id']) {
-        //     // } else {
-        //     //     echo "hello";
-        //     //     die();
-
-        //     //     if ($how_many_orders >= $demo_test_data) {
-
-        //     //         $coupon_main_id = $demo_test_data;
-        //     //         $coupon_insertion = select_where("coupon", "orders", $coupon_main_id, $connection, 1);
-        //     //         $insert_into_table_id = $coupon_insertion['id'];
-
-        //     //         $main_coupon_array = array(
-        //     //             "user_id" => $user_id,
-        //     //             "coupon_id" => $insert_into_table_id,
-        //     //         );
-        //     //         insert_func("user_coupon", $main_coupon_array, $connection);
-        //     //     }
-        //     // }
-        // }
     }
     unset($_SESSION['cart_items']);
     header("location: confirmation.php");
@@ -314,7 +272,7 @@ if (isset($_POST['proceed'])) {
                     <div class="row">
                         <div class="col-lg-8">
                             <h3>Billing Details</h3>
-                            <form class="row contact_form" action="checkout.php" method="post" novalidate="novalidate">
+                            <form class="row contact_form" action="" method="post" novalidate="novalidate">
                                 <div class="col-md-6 form-group p_star">
                                     <input type="text" class="form-control" id="first" name="first_name" placeholder="First Name" />
                                 </div>
