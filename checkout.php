@@ -54,16 +54,38 @@ if (isset($_POST['proceed'])) {
 
         $ordered_details = array();
         $product_details = select_where("seller_products", "product_id", $key, $connection, 1);
-        $ordered_details = array(
-            "product_id" => $key,
-            "order_id" => $last_id,
-            "quantity" => $value,
-            "single_price" => $product_details['sale_price'],
-            "total_price" => $product_details['sale_price'] * $value,
-            "order_number" => $random_number,
-            "status" => 0,
-            "user_id" => $user_id,
-        );
+        if ($_POST['coupon']) {
+
+            $inserted_coupon_number = $_POST['coupon'];
+            $check_if_true = select_where_string("coupon", "coupon_number", $inserted_coupon_number, $connection, 1);
+
+            if ($check_if_true) {
+                $deduct_the_price = $check_if_true['reduce_percentage'];
+                $new_price_calculation = $product_details['sale_price'] - ($product_details['sale_price'] * $deduct_the_price / 100);
+                $ordered_details = array(
+                    "product_id" => $key,
+                    "order_id" => $last_id,
+                    "quantity" => $value,
+                    "single_price" => $product_details['sale_price'],
+                    "total_price" => $new_price_calculation,
+                    "order_number" => $random_number,
+                    "status" => 0,
+                    "user_id" => $user_id,
+                );
+            }
+        } else {
+            $ordered_details = array(
+                "product_id" => $key,
+                "order_id" => $last_id,
+                "quantity" => $value,
+                "single_price" => $product_details['sale_price'],
+                "total_price" => $product_details['sale_price'] * $value,
+                "order_number" => $random_number,
+                "status" => 0,
+                "user_id" => $user_id,
+            );
+        }
+
         insert_func("ordered_products", $ordered_details, $connection);
         $total_quantity = select_where("seller_products", "product_id", $key, $connection, 1);
         $current_quantity = $total_quantity['stock'];
@@ -99,6 +121,13 @@ if (isset($_POST['proceed'])) {
             );
             insert_func("user_coupon", $main_array_coupon_data, $connection);
         }
+    }
+    if ($_POST['deduct']) {
+        $cN = $_POST['deduct'];
+        $hunting = select_where_string("coupon", "coupon_number", $cN, $connection, 1);
+        $id_of_coupon = $hunting['id'];
+        $que_ry = "DELETE FROM user_coupon WHERE user_id = $user_id AND coupon_id = $id_of_coupon";
+        $results = mysqli_query($connection, $que_ry);
     }
     unset($_SESSION['cart_items']);
     header("location: confirmation.php");
@@ -313,6 +342,9 @@ if (isset($_POST['proceed'])) {
                                     <input type="text" class="form-control coupon" id="" name="coupon" placeholder="Enter Coupon Number" />
                                     <p class="coupon_status"></p>
                                 </div>
+                                <div class="col-md-12 form-group" hidden>
+                                    <input type="text" class="form-control deduct" id="" name="deduct" placeholder="" />
+                                </div>
                                 <?php
                                 if (isset($_SESSION['user_login']) || isset($_COOKIE['remember_me'])) { ?>
                                     <input type="submit" name="proceed" id="" class="btn_3" value="Proceed to Confirmation">
@@ -355,6 +387,11 @@ if (isset($_POST['proceed'])) {
                                     <li>
                                         <a href="#">Subtotal
                                             <span class="main_det" data-subs="<?php echo $sub_total; ?>"><?php echo $sub_total; ?>$</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Deduction From Subtotal
+                                            <span class="deduction">0 $</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -548,6 +585,9 @@ if (isset($_POST['proceed'])) {
                                     $(".coupon_status").css("color", "Green");
                                     $(".coupon_status").text("Coupon Applied Successfully")
                                     $(".main_det").text(new_subs_amount + "$");
+                                    $(".deduction").text('');
+                                    $(".deduction").text(cut_amount + "$");
+                                    $(".deduct").val(inserted_coupon);
                                 } else {
                                     $(".coupon_status").text("Coupon cannot be applied");
                                 }

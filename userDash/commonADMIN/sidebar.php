@@ -169,7 +169,7 @@ $customer_current_name = select_where("user_credentials", "id", $current_id, $co
                 </li>
 
                 <li class="nav-item">
-                    <a href="./tracking.php" class="nav-link">
+                    <a href="./user_dash.php" class="nav-link">
                         <i class="nav-icon fas fa-edit"></i>
                         <p>
                             Track Orders

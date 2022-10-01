@@ -24,6 +24,9 @@ function delete_func($table, $del_id, $connection)
         die();
     }
 }
+
+
+
 function select_all($table, $connection)
 {
     $select_que = "SELECT * FROM $table";

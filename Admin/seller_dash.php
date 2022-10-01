@@ -29,16 +29,17 @@ if ($data_array['bill_no']) {
 
 if (isset($_POST['submit'])) {
     $i = 0;
-    foreach ($_POST['seller_id'] as $item) {
+
+    foreach ($_POST['product_id'] as $item) {
         $seller_products_array = array(
-            "seller_id" => $item,
-            "product_id" => $_POST['product_id'][$i],
+            "seller_id" => $_POST['seller_id'][0],
+            "product_id" => $item,
             "stock" => $_POST['stock'][$i],
             "cost_price" => $_POST['cp'][$i],
             "sale_price" => $_POST['cp'][$i] + $_POST['cp'][$i] * ($_POST['tax'][$i] / 100),
         );
 
-        $iid = $_POST['product_id'][$i];
+        $iid = $item;
 
         $p_name = select_where("products", "id", $iid, $connection, 1);
         $existing_name = $p_name['product_name'];
@@ -50,7 +51,7 @@ if (isset($_POST['submit'])) {
             "product_name" => $existing_name,
             "stock" => $_POST['stock'][$i],
             "bill_no" => $bill_number,
-            "sale_price" => $_POST['cp'][$i] + $_POST['cp'][$i] * ($_POST['tax'][$i] / 100),
+            "sale_price" => $_POST['cp'][$i],
         );
 
         if ($already_stock) {

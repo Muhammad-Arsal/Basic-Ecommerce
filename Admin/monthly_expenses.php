@@ -7,14 +7,14 @@ if (!isset($_SESSION['uid']) && !isset($_COOKIE['remember_me'])) {
 }
 if (isset($_POST['submit'])) {
 
-    $expenses_array = array(
+    $expenses_array_main = array(
         "bills" => $_POST['bills'],
-        "miscellaneous_expense" => $_POST['m_expenses'],
+        "miscellaneous_expense" => $_POST['me'],
         "tax" => $_POST['tax'],
         "transport" => $_POST['transport'],
     );
 
-    insert_func("monthly_expenses", $expenses_array, $connection);
+    insert_func("monthly_expenses", $expenses_array_main, $connection);
 }
 ?>
 <!DOCTYPE html>
@@ -41,14 +41,14 @@ if (isset($_POST['submit'])) {
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <div class="container pt-5">
-                <form action="" method="post">
+                <form action="monthly_expenses.php" method="post">
                     <div class="form-group">
                         <label for="">Bills</label>
                         <input id="" class="form-control" type="text" name="bills">
                     </div>
                     <div class="form-group">
                         <label for="">Miscellaneous expense</label>
-                        <input id="" class="form-control" type="text" name="m_expense">
+                        <input id="" class="form-control" type="text" name="me">
                     </div>
                     <div class="form-group">
                         <label for="Taxes">Taxes Paid</label>
@@ -58,7 +58,7 @@ if (isset($_POST['submit'])) {
                         <label for="">Transportation</label>
                         <input id="" class="form-control" type="text" name="transport">
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" name="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
         </div>
