@@ -69,7 +69,7 @@ if (!empty($total_expenses)) {
                 <h2 class="pt-5"><u>Profit Ratio Till Now</u></h2>
                 <table class="table table-striped">
                     <thead>
-                        <tr>
+                        <tr class="bg-success">
                             <th>Details</th>
                             <th>Expenses</th>
                         </tr>
@@ -87,9 +87,9 @@ if (!empty($total_expenses)) {
                             <td>Sales till Now</td>
                             <td><?php echo $already_sale_items;  ?> $</td>
                         </tr>
-                        <tr>
+                        <tr class="bg-success">
                             <td>Total Net Profit</td>
-                            <td><?php echo ($total_orders_add_up - $already_sale_items - $total_of_bills);   ?> $</td>
+                            <td><?php echo (($total_orders_add_up - $already_sale_items) - $total_of_bills);   ?> $</td>
                         </tr>
                     </tbody>
                 </table>
