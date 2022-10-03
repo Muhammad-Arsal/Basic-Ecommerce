@@ -651,6 +651,10 @@ if (isset($_SESSION['user_login'])) {
                 })
             })
         });
+
+        $(".product_list_slider").owlCarousel({
+            autoplay: false,
+        })
     </script>
 </body>
 
