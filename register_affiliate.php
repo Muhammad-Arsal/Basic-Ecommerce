@@ -10,7 +10,7 @@ if (isset($_POST['register'])) {
     );
 
     insert_func("user_credentials", $account_details, $connection);
-    header("location: checkout.php");
+    header("location: index.php");
 }
 ?>
 <!doctype html>

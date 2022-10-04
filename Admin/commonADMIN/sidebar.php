@@ -275,6 +275,14 @@ if ($notification) {
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="./all_member.php" class="nav-link">
+                        <i class="nav-icon fas fa-edit"></i>
+                        <p>
+                            Affiliate Members
+                        </p>
+                    </a>
+                </li>
 
             </ul>
         </nav>
