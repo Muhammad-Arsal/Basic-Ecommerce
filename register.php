@@ -1,12 +1,17 @@
 <?php
 require_once "./core/database.php";
-
+session_status();
+$affiliate_id = 0;
+if (isset($_SESSION['new_visitor'])) {
+    $affiliate_id = $_SESSION['new_visitor'];
+}
 if (isset($_POST['register'])) {
 
     $account_details = array(
         "name" => $_POST['fullname'],
         "email_num" => $_POST['email'],
-        "password" => $_POST['password']
+        "password" => $_POST['password'],
+        "affiliate_id" => $affiliate_id,
     );
 
     insert_func("user_credentials", $account_details, $connection);

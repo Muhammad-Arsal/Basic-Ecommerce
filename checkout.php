@@ -1,7 +1,10 @@
 <?php
 require_once "./core/database.php";
 session_start();
-
+$affiliate_id = 0;
+if (isset($_SESSION['new_visitor'])) {
+    $affiliate_id = $_SESSION['new_visitor'];
+}
 if (isset($_POST['login'])) {
     $name = $_POST['name'];
     $pass = $_POST['password'];
@@ -28,10 +31,6 @@ $country_name = select_all("country_name", $connection);
 if (isset($_SESSION['user_login'])) {
     $user_id = $_SESSION['user_login'];
 }
-
-$all_user_data = select_where("user_credentials", "id", $user_id, $connection, 1);
-
-$affiliate_id = $all_user_data['affiliate_id'];
 
 if (isset($_POST['proceed'])) {
     $random_number = rand(1000, 10000);

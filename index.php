@@ -9,7 +9,10 @@ if (isset($_SESSION['user_login'])) {
     $key = $_SESSION['user_login'];
     $from_db = select_where("user_credentials", "id", $key, $connection, 1);
 }
-
+if (isset($_GET['id'])) {
+    $affiliate_id = $_GET['id'];
+    $_SESSION['new_visitor'] = $affiliate_id;
+}
 
 ?>
 <!doctype html>

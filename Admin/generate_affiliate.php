@@ -70,7 +70,7 @@ $all_members = select_all("affiliate_member", $connection);
         $(function() {
             $(".selectName").on("change", function() {
                 var current_val = $(".selectName").val();
-                var new_url = "http://localhost/Ecommerce/register_affiliate.php?id=" + current_val;
+                var new_url = "http://localhost/Ecommerce/index.php?id=" + current_val;
                 console.log(new_url);
                 $(".url").val(new_url);
             })

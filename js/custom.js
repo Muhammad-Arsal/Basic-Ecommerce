@@ -14,11 +14,11 @@
   if (review.length) {
     review.owlCarousel({
       items: 1,
-      loop: true,
+      loop: false,
       dots: true,
       autoplay: false,
-      autoplayHoverPause: true,
-      autoplayTimeout: 5000,
+      autoplayHoverPause: false,
+      // autoplayTimeout: 5000,
       nav: false,
       responsive: {
         0: {
@@ -37,13 +37,13 @@
   if (best_product_slider.length) {
     best_product_slider.owlCarousel({
       items: 4,
-      loop: true,
+      loop: false,
       dots: false,
       autoplay: false,
-      autoplayHoverPause: true,
-      autoplayTimeout: 5000,
+      autoplayHoverPause: false,
+      // autoplayTimeout: 5000,
       nav: true,
-      navText: ["next", "previous"],
+      // navText: ["next", "previous"],/
       responsive: {
         0: {
           margin: 15,
@@ -74,14 +74,14 @@
   if (product_list_slider.length) {
     product_list_slider.owlCarousel({
       items: 1,
-      loop: true,
+      loop: false,
       dots: false,
       autoplay: false,
-      autoplayHoverPause: true,
+      autoplayHoverPause: false,
       autoplayTimeout: 5000,
       nav: true,
-      navText: ["next", "previous"],
-      smartSpeed: 1000,
+      // navText: ["next", "previous"],
+      // smartSpeed: 1000,
       responsive: {
         0: {
           margin: 15,
@@ -138,14 +138,14 @@
     })
     .owlCarousel({
       items: 1,
-      loop: true,
+      loop: false,
       dots: false,
       autoplay: false,
-      autoplayHoverPause: true,
+      autoplayHoverPause: false,
       autoplayTimeout: 5000,
       nav: true,
-      navText: ["next", "previous"],
-      smartSpeed: 1000,
+      // navText: ["next", "previous"],
+      // smartSpeed: 1000,
       responsive: {
         0: {
           nav: false,
