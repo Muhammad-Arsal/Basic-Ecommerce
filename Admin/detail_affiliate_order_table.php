@@ -5,7 +5,11 @@ if (!isset($_SESSION['uid']) && !isset($_COOKIE['remember_me'])) {
 
     header("location: login.php");
 }
-$all_affiliate_member = select_all("affiliate_member", $connection);
+$affiliate_member_id = $_GET['id'];
+
+$count_orders = select_where("ordered_products", "affiliate_user_id", $affiliate_member_id, $connection, 2);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,31 +35,33 @@ $all_affiliate_member = select_all("affiliate_member", $connection);
         <!-- Content Wrapper. Contains page content -->
 
         <div class="content-wrapper">
-            <div class="container">
-                <div class="col-12">
-                    <div class="row float-right pt-3">
-                        <a href="generate_affiliate.php" class="btn btn-primary">Generate URL</a>
-                        <a href="addmember.php" class="ml-2 btn bg-gradient-primary">Add Affiliate Member</a>
-                    </div>
-                </div>
-            </div>
 
-            <div class="container table-responsive py-2">
+            <div class="container table-responsive py-5">
                 <table class="table table-bordered table-hover">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Name</th>
+                            <th scope="col">Customer Name</th>
+                            <th scope="col">Product Purchased</th>
+                            <th scope="col">Quantity</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         $i = 1;
-                        if (!empty($all_affiliate_member)) {
-                            foreach ($all_affiliate_member as $all) { ?>
+                        if (!empty($count_orders)) {
+                            foreach ($count_orders as $all_orders) {
+                                $product_id = $all_orders['product_id'];
+                                $name_of_product = select_where("products", "id", $product_id, $connection, 1);
+
+                                $user_id = $all_orders['user_id'];
+                                $name_of_customer = select_where("user_credentials", "id", $user_id, $connection, 1);
+                        ?>
                                 <tr>
                                     <th scope="row"><?php echo $i++; ?></th>
-                                    <td><a href="show_member_details.php?id=<?php echo $all['id']; ?>"><?php echo $all['name'] ?></a></td>
+                                    <td><?php echo $name_of_customer['name']; ?></td>
+                                    <td><?php echo $name_of_product['product_name'] ?></td>
+                                    <td><?php echo $all_orders['quantity']; ?></td>
                                 </tr>
                         <?php }
                         } ?>

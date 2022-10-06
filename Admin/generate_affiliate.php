@@ -36,7 +36,7 @@ $all_members = select_all("affiliate_member", $connection);
                 <form action="">
                     <div class="form-group">
                         <label for="">Select Affiliate Member</label>
-                        <select class="custom-select" name="" id="">
+                        <select class="custom-select selectName" name="" id="">
                             <option value="">Select one</option>
                             <?php foreach ($all_members as $all) { ?>
                                 <option value="<?php echo $all['id']; ?>"><?php echo $all['name'] ?></option>
@@ -45,7 +45,7 @@ $all_members = select_all("affiliate_member", $connection);
                     </div>
                     <div class="form-group">
                         <label for="">Generated URL</label>
-                        <input id="" value="" class="form-control" type="text" name="" readonly>
+                        <input id="" value="" class="form-control url" type="text" name="" readonly>
                     </div>
                 </form>
             </div>
@@ -66,6 +66,16 @@ $all_members = select_all("affiliate_member", $connection);
     <?php
     require_once "commonADMIN/commonfooter.php";
     ?>
+    <script>
+        $(function() {
+            $(".selectName").on("change", function() {
+                var current_val = $(".selectName").val();
+                var new_url = "http://localhost/Ecommerce/register_affiliate.php?id=" + current_val;
+                console.log(new_url);
+                $(".url").val(new_url);
+            })
+        });
+    </script>
 </body>
 
 </html>

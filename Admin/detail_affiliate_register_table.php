@@ -5,7 +5,9 @@ if (!isset($_SESSION['uid']) && !isset($_COOKIE['remember_me'])) {
 
     header("location: login.php");
 }
-$all_affiliate_member = select_all("affiliate_member", $connection);
+$affiliate_member_id = $_GET['id'];
+
+$count_register = select_where("user_credentials", "affiliate_id", $affiliate_member_id, $connection, 2);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,31 +33,24 @@ $all_affiliate_member = select_all("affiliate_member", $connection);
         <!-- Content Wrapper. Contains page content -->
 
         <div class="content-wrapper">
-            <div class="container">
-                <div class="col-12">
-                    <div class="row float-right pt-3">
-                        <a href="generate_affiliate.php" class="btn btn-primary">Generate URL</a>
-                        <a href="addmember.php" class="ml-2 btn bg-gradient-primary">Add Affiliate Member</a>
-                    </div>
-                </div>
-            </div>
 
-            <div class="container table-responsive py-2">
+            <div class="container table-responsive py-5">
                 <table class="table table-bordered table-hover">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Name</th>
+                            <th scope="col">User Name</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         $i = 1;
-                        if (!empty($all_affiliate_member)) {
-                            foreach ($all_affiliate_member as $all) { ?>
+                        if (!empty($count_register)) {
+                            foreach ($count_register as $all) {
+                        ?>
                                 <tr>
                                     <th scope="row"><?php echo $i++; ?></th>
-                                    <td><a href="show_member_details.php?id=<?php echo $all['id']; ?>"><?php echo $all['name'] ?></a></td>
+                                    <td><?php echo $all['name']; ?></td>
                                 </tr>
                         <?php }
                         } ?>

@@ -1,12 +1,16 @@
 <?php
 require_once "./core/database.php";
+if (isset($_GET['id'])) {
+    $received_id = $_GET['id'];
+}
 
 if (isset($_POST['register'])) {
 
     $account_details = array(
         "name" => $_POST['fullname'],
         "email_num" => $_POST['email'],
-        "password" => $_POST['password']
+        "password" => $_POST['password'],
+        "affiliate_id" => $received_id,
     );
 
     insert_func("user_credentials", $account_details, $connection);
