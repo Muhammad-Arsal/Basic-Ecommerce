@@ -9,9 +9,17 @@ if (isset($_SESSION['user_login'])) {
     $key = $_SESSION['user_login'];
     $from_db = select_where("user_credentials", "id", $key, $connection, 1);
 }
+$new_user = 1;
 if (isset($_GET['id'])) {
+
     $affiliate_id = $_GET['id'];
     $_SESSION['new_visitor'] = $affiliate_id;
+
+    $main_visitor_array = array(
+        "client_ip" => $new_user,
+        "affiliate_id" => $affiliate_id,
+    );
+    insert_func("unique_visitors", $main_visitor_array, $connection);
 }
 
 ?>

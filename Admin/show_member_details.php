@@ -19,6 +19,11 @@ if (!empty($count_orders)) {
     $count_orders_number = count($count_orders);
 }
 
+$click_count = select_where("unique_visitors", "affiliate_id", $affiliate_member_id, $connection, 2);
+if (!empty($click_count)) {
+    $count_clicked_number = count($click_count);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,6 +74,12 @@ if (!empty($count_orders)) {
                             <td><?php echo $count_orders_number; ?></td>
                             <td><a href="detail_affiliate_order_table.php?id=<?php echo $affiliate_member_id ?>" class="btn btn-success">Details</a></td>
                         </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Total number of clicks through links</td>
+                            <td><?php echo $count_clicked_number;  ?></td>
+                            <td>--------------</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -84,9 +95,7 @@ if (!empty($count_orders)) {
         <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
-    <?php
-    require_once "commonADMIN/footer.php";
-    ?>
+
     <?php
     require_once "commonADMIN/commonfooter.php";
     ?>
